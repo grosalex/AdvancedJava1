@@ -2,7 +2,8 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -20,28 +21,16 @@ public class Main extends Application {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			 BufferedReader buf = new BufferedReader(new InputStreamReader(
-			          proc.getInputStream())); 
-			  String line = "";
-			  String output = "";
-			 
-			  while ((line = buf.readLine()) != null) {
-			    output += line + "\n";
-			  } 
-			 
-			  System.out.println(output);
-			  String delim=" ";
-			  String[] result = output.split(delim);
-			  String[] reg = output.split("^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
-						"([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
-						"([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
-						"([01]?\\d\\d?|2[0-4]\\d|25[0-5])$");
-			  for(int i=0;i<result.length;i++){
-				  if(i%25==0)
-				  System.out.println(result[i]+"\n");
-				  
-			  }
-			  System.out.println(reg);
+			BufferedReader buf = new BufferedReader(new InputStreamReader(
+					proc.getInputStream())); 
+			String line = "";
+			Pattern p = Pattern.compile("(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})");
+
+			while ((line = buf.readLine()) != null) {
+				Matcher m = p.matcher(line);
+				if(m.find())
+					System.out.println(m.group());
+			} 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
