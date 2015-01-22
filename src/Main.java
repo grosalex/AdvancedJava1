@@ -24,28 +24,26 @@ public class Main extends Application{
 		Process proc;
 		try {
 			proc = Runtime.getRuntime().exec("traceroute fr.wikipedia.org");
-			try {
-				proc.waitFor();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+
+			proc.waitFor();
+
 			BufferedReader buf = new BufferedReader(new InputStreamReader(
 					proc.getInputStream())); 
 			String line = "";
-			Pattern p = Pattern.compile("(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})");
+			Pattern ipRegEx = Pattern.compile("(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})");
+			Pattern hostRegEx = Pattern.compile("(\\S+)\\.[a-z]*(\\d)*");
 
 			while ((line = buf.readLine()) != null) {
-				Matcher m = p.matcher(line);
-				if(m.find())
-					System.out.println(m.group());
+				Matcher ip = ipRegEx.matcher(line);
+				Matcher host = hostRegEx.matcher(line);
+				if(ip.find() && host.find())
+					System.out.println(host.group() + ip.group());
 			} 
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		launch(args);
 
