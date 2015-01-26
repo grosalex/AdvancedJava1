@@ -20,7 +20,7 @@ public class View{
 	
 	private Stage primaryStage;
 	
-	//private final Node rootIcon = new ImageView(new Image("folderIcon.png"));
+	private final Node rootIcon = new ImageView(new Image("file:folderIcon.png"));
 	
 	
 	public View(Stage primaryStage){
@@ -43,9 +43,9 @@ public class View{
 	          public void handle(ActionEvent event) {
 
 	          }
-	      });
+	    });
 		
-		/*TreeItem<String> rootItem = new TreeItem<String> ("Inbox", rootIcon);
+		TreeItem<String> rootItem = new TreeItem<String> ("Inbox", rootIcon);
         rootItem.setExpanded(true);
         for (int i = 1; i < 6; i++) {
             TreeItem<String> item = new TreeItem<String> ("Message" + i);            
@@ -53,7 +53,7 @@ public class View{
         }        
         TreeView<String> tree = new TreeView<String> (rootItem);
 		
-        stack.getChildren().add(tree);*/
+        stack.getChildren().add(tree);
 		hb.getChildren().addAll(url,trace);
 		vb.getChildren().addAll(hb,stack);
 		
