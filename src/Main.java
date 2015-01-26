@@ -1,8 +1,11 @@
 
 
 import com.ece.bmb.view.View;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,13 +19,14 @@ public class Main extends Application{
 
 
 	public void start(Stage primaryStage) {
-
+		String result=new String("digraph mon_graphe {\n");
 		v = new View(primaryStage);
 		v.start();
-
+		ArrayList<String> parents = new ArrayList<String>();
+		ArrayList<String> children = new ArrayList<String>();
 		Process proc;
 		try {
-			proc = Runtime.getRuntime().exec("java -jar fakeroute.jar ece.fr");
+			proc = Runtime.getRuntime().exec("java -jar fakeroute.jar 91.199.6.42");
 
 			proc.waitFor();
 
@@ -38,11 +42,27 @@ public class Main extends Application{
 				Matcher host = hostRegEx.matcher(line);
 				
 				while(ip.find()) {
-					System.out.print(ip.group()+ " ");
-				
+					//System.out.print(ip.group()+ " ");
+					children.add(ip.group());
 				}
-				System.out.println();
+				for(int i=0;i<parents.size();i++){
+					for(int j=0;j<children.size();j++){
+						if(parents.get(i).compareTo(children.get(j))!=0)
+						System.out.println(parents.get(i)+"->"+children.get(j));
+						result=result+"\""+parents.get(i)+"\""+" -> "+"\""+children.get(j)+"\""+";\n";
+					}
+				}
+				parents.clear();
+				parents.addAll(children);
+				children.clear();
+				//System.out.println();
 			} 
+			result=result+"}";
+			System.out.println(result);
+			PrintWriter out = new PrintWriter("dotFile.dot");
+			out.println(result);
+			out.close();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
