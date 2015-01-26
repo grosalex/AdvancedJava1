@@ -8,10 +8,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -22,7 +18,10 @@ public class View{
 	
 	private Stage primaryStage;
 	private Process processGraph;
-	private final Node rootIcon = new ImageView(new Image("file:folderIcon.png"));
+
+	Process proc;
+	
+	//private static String DOT = "c:/Program Files/Graphviz2.26.3/bin/dot.exe";//Windows
 	
 	
 	public View(Stage primaryStage){
@@ -53,15 +52,8 @@ public class View{
 	          }
 	    });
 		
-		TreeItem<String> rootItem = new TreeItem<String> ("Inbox", rootIcon);
-        rootItem.setExpanded(true);
-        for (int i = 1; i < 6; i++) {
-            TreeItem<String> item = new TreeItem<String> ("Message" + i);            
-            rootItem.getChildren().add(item);
-        }        
-        TreeView<String> tree = new TreeView<String> (rootItem);
 		
-        stack.getChildren().add(tree);
+        //stack.getChildren().add();
 		hb.getChildren().addAll(url,trace);
 		vb.getChildren().addAll(hb,stack);
 		
