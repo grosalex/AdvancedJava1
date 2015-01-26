@@ -7,6 +7,8 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -21,13 +23,13 @@ public class View{
 
 	Process proc;
 	
-	//private static String DOT = "c:/Program Files/Graphviz2.26.3/bin/dot.exe";//Windows
+	private static String DOT = "C:/Program Files (x86)/Graphviz2.38/bin/dot.exe";//Windows	
 	
 	
 	public View(Stage primaryStage){
 		this.primaryStage=primaryStage;
 		try {
-			processGraph = Runtime.getRuntime().exec("dot -Tpng dotfile.dot -o graph.png");
+			processGraph = Runtime.getRuntime().exec(DOT+" -Tpng dotfile.dot -o graph.png");
 			processGraph.waitFor();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -38,6 +40,9 @@ public class View{
 	public void start() {
 		primaryStage.setTitle("Traceroute"); 
 		
+		Image image = new Image("file:graph.png");
+		ImageView imageView1 = new ImageView();
+        imageView1.setImage(image);
 		
 		VBox vb = new VBox();
 		HBox hb = new HBox();
@@ -53,7 +58,7 @@ public class View{
 	    });
 		
 		
-        //stack.getChildren().add();
+        stack.getChildren().addAll(imageView1);
 		hb.getChildren().addAll(url,trace);
 		vb.getChildren().addAll(hb,stack);
 		
