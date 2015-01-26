@@ -2,7 +2,6 @@
 
 import com.ece.bmb.view.View;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,7 +22,7 @@ public class Main extends Application{
 
 		Process proc;
 		try {
-			proc = Runtime.getRuntime().exec("traceroute fr.wikipedia.org");
+			proc = Runtime.getRuntime().exec("java -jar fakeroute.jar ece.fr");
 
 			proc.waitFor();
 
@@ -31,13 +30,18 @@ public class Main extends Application{
 					proc.getInputStream())); 
 			String line = "";
 			Pattern ipRegEx = Pattern.compile("(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})");
+		
 			Pattern hostRegEx = Pattern.compile("(\\S+)\\.[a-z]*(\\d)*");
 
 			while ((line = buf.readLine()) != null) {
 				Matcher ip = ipRegEx.matcher(line);
 				Matcher host = hostRegEx.matcher(line);
-				if(ip.find() && host.find())
-					System.out.println(host.group() + ip.group());
+				
+				while(ip.find()) {
+					System.out.print(ip.group()+ " ");
+				
+				}
+				System.out.println();
 			} 
 		} catch (Exception e) {
 			e.printStackTrace();
