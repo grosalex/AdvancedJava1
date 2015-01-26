@@ -21,21 +21,17 @@ public class Main extends Application{
 		v.start();
 
 		Process proc;
+
 		try {
 			proc = Runtime.getRuntime().exec("java -jar fakeroute.jar ece.fr");
-
 			proc.waitFor();
-
-			BufferedReader buf = new BufferedReader(new InputStreamReader(
-					proc.getInputStream())); 
+			
+			BufferedReader buf = new BufferedReader(new InputStreamReader(proc.getInputStream())); 
 			String line = "";
 			Pattern ipRegEx = Pattern.compile("(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})");
-		
-			Pattern hostRegEx = Pattern.compile("(\\S+)\\.[a-z]*(\\d)*");
 
 			while ((line = buf.readLine()) != null) {
 				Matcher ip = ipRegEx.matcher(line);
-				Matcher host = hostRegEx.matcher(line);
 				
 				while(ip.find()) {
 					System.out.print(ip.group()+ " ");

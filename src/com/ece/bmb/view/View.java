@@ -1,5 +1,7 @@
 package com.ece.bmb.view;
 
+import java.io.IOException;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -19,12 +21,18 @@ import javafx.stage.Stage;
 public class View{
 	
 	private Stage primaryStage;
-	
+	private Process processGraph;
 	private final Node rootIcon = new ImageView(new Image("file:folderIcon.png"));
 	
 	
 	public View(Stage primaryStage){
 		this.primaryStage=primaryStage;
+		try {
+			processGraph = Runtime.getRuntime().exec("dot -Tpng dotfile.dot -o graph.png");
+			processGraph.waitFor();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 
