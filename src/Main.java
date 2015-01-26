@@ -1,49 +1,45 @@
 
+
+import com.ece.bmb.view.View;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-public class Main extends Application {
 
-	@Override
+public class Main extends Application{
+
+	private View v;	
+
+
 	public void start(Stage primaryStage) {
+
+		v = new View(primaryStage);
+		v.start();
+
 		Process proc;
 		try {
 			proc = Runtime.getRuntime().exec("traceroute fr.wikipedia.org");
-			try {
-				proc.waitFor();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			 BufferedReader buf = new BufferedReader(new InputStreamReader(
-			          proc.getInputStream())); 
-			  String line = "";
-			  String output = "";
-			 
-			  while ((line = buf.readLine()) != null) {
-			    output += line + "\n";
-			  } 
-			 
-			  System.out.println(output);
-			  String delim=" ";
-			  String[] result = output.split(delim);
-			  String[] reg = output.split("^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
-						"([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
-						"([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
-						"([01]?\\d\\d?|2[0-4]\\d|25[0-5])$");
-			  for(int i=0;i<result.length;i++){
-				  if(i%25==0)
-				  System.out.println(result[i]+"\n");
-				  
-			  }
-			  System.out.println(reg);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
+			proc.waitFor();
+
+			BufferedReader buf = new BufferedReader(new InputStreamReader(
+					proc.getInputStream())); 
+			String line = "";
+			Pattern ipRegEx = Pattern.compile("(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})");
+			Pattern hostRegEx = Pattern.compile("(\\S+)\\.[a-z]*(\\d)*");
+
+			while ((line = buf.readLine()) != null) {
+				Matcher ip = ipRegEx.matcher(line);
+				Matcher host = hostRegEx.matcher(line);
+				if(ip.find() && host.find())
+					System.out.println(host.group() + ip.group());
+			} 
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
