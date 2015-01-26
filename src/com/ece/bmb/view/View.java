@@ -21,22 +21,19 @@ public class View{
 	private Stage primaryStage;
 	private Process processGraph;
 	private String OS;
-
-	Process proc;
-	
-	private static String DOT = "C:/Program Files (x86)/Graphviz2.38/bin/dot.exe";//Windows	
+	private String DOT;	
 	
 	
 	public View(Stage primaryStage){
 		this.primaryStage=primaryStage;
-		OS = System.getProperty("os.name");
+		OS = System.getProperty("os.name").toLowerCase();
 		
 		try {
 			if(isWindows()) {
-				
+				DOT = "C:/Program Files (x86)/Graphviz2.38/bin/dot.exe";
 			}
 			if(isUnix()) {
-				
+				DOT= "dot";
 			}
 			processGraph = Runtime.getRuntime().exec(DOT+" -Tpng dotfile.dot -o graph.png");
 			processGraph.waitFor();
@@ -71,7 +68,7 @@ public class View{
 		hb.getChildren().addAll(url,trace);
 		vb.getChildren().addAll(hb,stack);
 		
-		primaryStage.setScene(new Scene(vb, 300, 250));
+		primaryStage.setScene(new Scene(vb, 400, 400));
         primaryStage.show();
 	}
 	
