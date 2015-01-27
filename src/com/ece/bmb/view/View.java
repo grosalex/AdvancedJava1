@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -45,6 +46,8 @@ public class View{
 		}
 	}
 	
+	
+	// class taken from http://www.javalobby.org/java/forums/t17036.html
 	private void copyFile(File source, File dest) throws IOException{
 		
 		if(!dest.exists()) {
@@ -80,14 +83,21 @@ public class View{
 		
 		MenuBar menuBar = new MenuBar();
 		Menu menuHelp = new Menu("Help");
-		menuBar.getMenus().addAll(menuHelp);
+		Menu menuExit= new Menu("Exit");
+		MenuItem exit = new MenuItem("Close Program");
+		exit.setOnAction(new EventHandler<ActionEvent>() {
+		    public void handle(ActionEvent t) {
+		        System.exit(0);
+		    }
+		});
+		menuExit.getItems().addAll(exit);
+		menuBar.getMenus().addAll(menuHelp,menuExit);
 		
 		Image image = new Image("file:graph.png");
 		ImageView imageView1 = new ImageView();
         imageView1.setImage(image);
 		
 		Scene vb = new Scene(new VBox(),300,300);
-		vb.setFill(Color.OLDLACE);
 		HBox hb1 = new HBox();
 		HBox hb2 = new HBox();
 		ScrollPane sp = new ScrollPane();
@@ -109,8 +119,8 @@ public class View{
 	        		  File destFile= new File("SavedGraph/"+name_save.getText()+".png");
 	        		  try {
 						copyFile(srcFile,destFile);
+						name_save.clear();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 	        	  }
