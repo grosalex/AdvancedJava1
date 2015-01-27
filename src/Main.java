@@ -27,12 +27,8 @@ public class Main extends Application{
 		Process proc;
 
 		try {
-<<<<<<< HEAD
-			proc = Runtime.getRuntime().exec("java -jar fakeroute.jar 91.199.6.42");
 
-=======
 			proc = Runtime.getRuntime().exec("java -jar fakeroute.jar ece.fr");
->>>>>>> cb13169f5545d9decacbe677a2a6d56203f1ae14
 			proc.waitFor();
 			
 			BufferedReader buf = new BufferedReader(new InputStreamReader(proc.getInputStream())); 
