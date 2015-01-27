@@ -1,7 +1,6 @@
 package com.ece.bmb.view;
 
 import java.io.*;
-import java.nio.*;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,7 +15,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 
@@ -97,7 +95,7 @@ public class View{
 		ImageView imageView1 = new ImageView();
         imageView1.setImage(image);
 		
-		Scene vb = new Scene(new VBox(),300,300);
+		Scene vb = new Scene(new VBox(),400,300);
 		HBox hb1 = new HBox();
 		HBox hb2 = new HBox();
 		ScrollPane sp = new ScrollPane();
@@ -127,11 +125,19 @@ public class View{
 	          }
 
 	    });
+		Button load = new Button("Load Graphic");
+		load.setOnAction(new EventHandler<ActionEvent>() {		 
+	          @Override
+	          public void handle(ActionEvent event) {
+	        	    
+	          }
+
+	    });
 		
 		
         sp.setContent(imageView1);
 		hb1.getChildren().addAll(url,trace);
-		hb2.getChildren().addAll(name_save,save);
+		hb2.getChildren().addAll(name_save,save,load);
 		((VBox) vb.getRoot()).getChildren().addAll(menuBar,hb1,sp,hb2);
 
 		
