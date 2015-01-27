@@ -1,6 +1,7 @@
 package com.ece.bmb.view;
 
-import java.io.IOException;
+import java.io.*;
+import java.nio.*;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -44,9 +45,38 @@ public class View{
 		}
 	}
 	
+	private void copyFile(File source, File dest) throws IOException{
+		
+		if(!dest.exists()) {
+			  dest.createNewFile();
+			 }
+			 InputStream in = null;
+			 OutputStream out = null;
+			 try {
+			  in = new FileInputStream(source);
+			  out = new FileOutputStream(dest);
+			    
+			  // Transfer bytes from in to out
+			  byte[] buf = new byte[1024];
+			  int len;
+			  while ((len = in.read(buf)) > 0) {
+			   out.write(buf, 0, len);
+			  }
+			 }
+			 finally {
+			  if(in != null) {
+			   in.close();
+			  }
+			  if(out != null) {
+			   out.close();
+			  }
+			 }
+	}
 
 	public void start() {
 		primaryStage.setTitle("Traceroute");
+		
+		File srcFile= new File("graph.png");
 		
 		MenuBar menuBar = new MenuBar();
 		Menu menuHelp = new Menu("Help");
@@ -72,11 +102,20 @@ public class View{
 	          }
 	    });
 		Button save = new Button("Save Graphic");
-		trace.setOnAction(new EventHandler<ActionEvent>() {		 
+		save.setOnAction(new EventHandler<ActionEvent>() {		 
 	          @Override
 	          public void handle(ActionEvent event) {
-
+	        	  if ((name_save.getText() != null && !name_save.getText().isEmpty())){
+	        		  File destFile= new File("SavedGraph/"+name_save.getText()+".png");
+	        		  try {
+						copyFile(srcFile,destFile);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	        	  }
 	          }
+
 	    });
 		
 		
