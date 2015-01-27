@@ -1,34 +1,41 @@
+package com.ece.bmb.controller;
 
 
 import com.ece.bmb.view.View;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 
-public class Main extends Application{
+public class Controller extends Application{
 
 	private View v;	
 
-
 	public void start(Stage primaryStage) {
-		String result=new String("digraph mon_graphe {\n");
 		v = new View(primaryStage);
-		v.start();
+		v.start(this);
+		doTraceroute("ece.fr");
+		
+	}
+
+	public static void main(String[] args) {
+		launch(args);
+
+	}
+	
+	public void doTraceroute(String dest) {
+		Process proc;
 		ArrayList<String> parents = new ArrayList<String>();
 		ArrayList<String> children = new ArrayList<String>();
-		Process proc;
-
+		String result=new String("digraph mon_graphe {\n");
 		try {
 
-			proc = Runtime.getRuntime().exec("java -jar fakeroute.jar ece.fr");
+			proc = Runtime.getRuntime().exec("java -jar fakeroute.jar "+dest);
 			proc.waitFor();
 			
 			BufferedReader buf = new BufferedReader(new InputStreamReader(proc.getInputStream())); 
@@ -39,9 +46,8 @@ public class Main extends Application{
 				Matcher ip = ipRegEx.matcher(line);
 				
 				while(ip.find()) {
-					//System.out.print(ip.group()+ " ");
 					children.add(ip.group());
-				}
+				} 
 				for(int i=0;i<parents.size();i++){
 					for(int j=0;j<children.size();j++){
 						if(parents.get(i).compareTo(children.get(j))!=0)
@@ -52,7 +58,6 @@ public class Main extends Application{
 				parents.clear();
 				parents.addAll(children);
 				children.clear();
-				//System.out.println();
 			} 
 			result=result+"}";
 			System.out.println(result);
@@ -63,10 +68,5 @@ public class Main extends Application{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	public static void main(String[] args) {
-		launch(args);
-
 	}
 }
