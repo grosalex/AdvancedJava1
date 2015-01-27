@@ -25,21 +25,22 @@ public class Main extends Application{
 		ArrayList<String> parents = new ArrayList<String>();
 		ArrayList<String> children = new ArrayList<String>();
 		Process proc;
+
 		try {
+<<<<<<< HEAD
 			proc = Runtime.getRuntime().exec("java -jar fakeroute.jar 91.199.6.42");
 
+=======
+			proc = Runtime.getRuntime().exec("java -jar fakeroute.jar ece.fr");
+>>>>>>> cb13169f5545d9decacbe677a2a6d56203f1ae14
 			proc.waitFor();
-
-			BufferedReader buf = new BufferedReader(new InputStreamReader(
-					proc.getInputStream())); 
+			
+			BufferedReader buf = new BufferedReader(new InputStreamReader(proc.getInputStream())); 
 			String line = "";
 			Pattern ipRegEx = Pattern.compile("(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})");
-		
-			Pattern hostRegEx = Pattern.compile("(\\S+)\\.[a-z]*(\\d)*");
 
 			while ((line = buf.readLine()) != null) {
 				Matcher ip = ipRegEx.matcher(line);
-				Matcher host = hostRegEx.matcher(line);
 				
 				while(ip.find()) {
 					//System.out.print(ip.group()+ " ");
