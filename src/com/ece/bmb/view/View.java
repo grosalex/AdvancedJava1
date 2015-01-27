@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.TextField;
@@ -52,7 +53,7 @@ public class View{
 		
 		VBox vb = new VBox();
 		HBox hb = new HBox();
-		StackPane stack = new StackPane();
+		ScrollPane sp = new ScrollPane();
 		
 		TextField url = new TextField();
 		Button trace = new Button("Start Traceroute");
@@ -64,9 +65,9 @@ public class View{
 	    });
 		
 		
-        stack.getChildren().addAll(imageView1);
+        sp.setContent(imageView1);
 		hb.getChildren().addAll(url,trace);
-		vb.getChildren().addAll(hb,stack);
+		vb.getChildren().addAll(hb,sp);
 		
 		primaryStage.setScene(new Scene(vb, 400, 400));
         primaryStage.show();
