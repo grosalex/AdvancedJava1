@@ -139,11 +139,10 @@ public class Model {
 					historic = historic + sCurrentLine;
 				}
 			}
+			br.close();
 		} catch (FileNotFoundException e) {
-			// TODO Bloc catch généré automatiquement
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Bloc catch généré automatiquement
 			e.printStackTrace();
 		}
 		return historic;

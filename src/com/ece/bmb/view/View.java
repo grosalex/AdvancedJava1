@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.ece.bmb.controller.Controller;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -44,7 +45,11 @@ public class View{
 		MenuItem exit = new MenuItem("Close Program");
 		exit.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent t) {
-				System.exit(0);
+				File tmpDot =  new File("dotFile.dot");
+				File tmpPng = new File("graph.png");
+				tmpDot.delete();
+				tmpPng.delete();
+				primaryStage.close();
 			}
 		});
 		MenuItem help = new MenuItem("Functionalities\n\t-Enter a ip address in the top field\n\t"
