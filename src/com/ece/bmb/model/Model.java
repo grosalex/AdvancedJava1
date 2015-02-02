@@ -2,11 +2,11 @@ package com.ece.bmb.model;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -88,6 +88,8 @@ public class Model {
 		ArrayList<String> parents = new ArrayList<String>();
 		ArrayList<String> children = new ArrayList<String>();
 		String result=new String("digraph mon_graphe {\n");
+		String old = getHistoric();
+		result = result+old;
 		try {
 
 			proc = Runtime.getRuntime().exec("java -jar fakeroute.jar "+dest);
@@ -126,5 +128,24 @@ public class Model {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+	public String getHistoric(){
+		String historic= new String();
+		try {
+			BufferedReader br = new BufferedReader(new FileReader("dotFile.dot"));
+			String sCurrentLine;
+			while ((sCurrentLine = br.readLine()) != null) {
+				if(!sCurrentLine.equals("digraph mon_graphe {") && !sCurrentLine.equals("}")){
+					historic = historic + sCurrentLine;
+				}
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Bloc catch généré automatiquement
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Bloc catch généré automatiquement
+			e.printStackTrace();
+		}
+		return historic;
 	}
 }
