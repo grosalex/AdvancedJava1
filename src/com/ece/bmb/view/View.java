@@ -33,7 +33,6 @@ public class View{
 	public View(Stage primaryStage){
 		this.primaryStage=primaryStage;
 
-
 	}
 
 
@@ -55,12 +54,17 @@ public class View{
 				System.exit(0);
 			}
 		});
+		MenuItem help = new MenuItem("Functionalities\n\t-Enter a ip address in the top field\n\t"
+				+ "-Start the Traceroute\n\t"
+				+ "-The graph of your traceroute will appear\n\t"
+				+ "-You can save your graph by putting a name ien the text field and click on Save");
+		menuHelp.getItems().addAll(help);
 		menuExit.getItems().addAll(exit);
 		menuBar.getMenus().addAll(menuHelp,menuExit);
 
 		Image image = new Image("file:graph.png");
 		ImageView imageView1 = new ImageView();
-		imageView1.setImage(image);
+		//imageView1.setImage(image);
 
 		Scene vb = new Scene(new VBox(),400,300);
 		HBox hb1 = new HBox();
@@ -73,11 +77,13 @@ public class View{
 		trace.setOnAction(new EventHandler<ActionEvent>() {		 
 			@Override
 			public void handle(ActionEvent event) {
+
 				if(!ipField.getText().isEmpty()) {
 					Pattern ipRegEx = Pattern.compile("(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})");
 					Matcher ipMatcher = ipRegEx.matcher(ipField.getText());
 					if(ipMatcher.matches()) {
 						ctrl.doTraceroute(ipField.getText());
+						imageView1.setImage(image);
 					}
 				}
 			}
