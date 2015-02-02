@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.ece.bmb.controller.Controller;
+import com.ece.bmb.model.Model;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -25,59 +26,18 @@ import javafx.stage.Stage;
 public class View{
 
 	private Stage primaryStage;
-	private Process processGraph;
-	private String OS;
-	private String DOT;	
+
 	private Controller ctrl;
 
-
+	
 	public View(Stage primaryStage){
 		this.primaryStage=primaryStage;
-		OS = System.getProperty("os.name").toLowerCase();
 
-		try {
-			if(isWindows()) {
-				DOT = "C:/Program Files (x86)/Graphviz2.38/bin/dot.exe";
-			}
-			if(isUnix()) {
-				DOT= "dot";
-			}
-			processGraph = Runtime.getRuntime().exec(DOT+" -Tpng dotFile.dot -o graph.png");
-			processGraph.waitFor();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 
 	// class taken from http://www.javalobby.org/java/forums/t17036.html
-	private void copyFile(File source, File dest) throws IOException{
 
-		if(!dest.exists()) {
-			dest.createNewFile();
-		}
-		InputStream in = null;
-		OutputStream out = null;
-		try {
-			in = new FileInputStream(source);
-			out = new FileOutputStream(dest);
-
-			// Transfer bytes from in to out
-			byte[] buf = new byte[1024];
-			int len;
-			while ((len = in.read(buf)) > 0) {
-				out.write(buf, 0, len);
-			}
-		}
-		finally {
-			if(in != null) {
-				in.close();
-			}
-			if(out != null) {
-				out.close();
-			}
-		}
-	}
 
 	public void start(Controller controller) {
 		this.ctrl = controller;
@@ -111,15 +71,20 @@ public class View{
 		HBox hb2 = new HBox();
 		ScrollPane sp = new ScrollPane();
 
-		TextField url = new TextField();
+		TextField ipField = new TextField();
 		TextField name_save = new TextField();
 		Button trace = new Button("Start Traceroute");
 		trace.setOnAction(new EventHandler<ActionEvent>() {		 
 			@Override
 			public void handle(ActionEvent event) {
-				if(!url.getText().isEmpty()) {
-					ctrl.doTraceroute(url.getText());
-					imageView1.setImage(image);
+
+				if(!ipField.getText().isEmpty()) {
+					Pattern ipRegEx = Pattern.compile("(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})");
+					Matcher ipMatcher = ipRegEx.matcher(ipField.getText());
+					if(ipMatcher.matches()) {
+						ctrl.doTraceroute(ipField.getText());
+						imageView1.setImage(image);
+					}
 				}
 			}
 		});
@@ -129,12 +94,9 @@ public class View{
 			public void handle(ActionEvent event) {
 				if ((name_save.getText() != null && !name_save.getText().isEmpty())){
 					File destFile= new File("SavedGraph/"+name_save.getText()+".png");
-					try {
-						copyFile(srcFile,destFile);
-						name_save.clear();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+					ctrl.copyFile(srcFile,destFile);
+					name_save.clear();
+
 				}
 			}
 
@@ -150,7 +112,7 @@ public class View{
 
 
 		sp.setContent(imageView1);
-		hb1.getChildren().addAll(url,trace);
+		hb1.getChildren().addAll(ipField,trace);
 		hb2.getChildren().addAll(name_save,save,load);
 		((VBox) vb.getRoot()).getChildren().addAll(menuBar,hb1,sp,hb2);
 
@@ -158,13 +120,5 @@ public class View{
 
 		primaryStage.setScene(vb);
 		primaryStage.show();
-	}
-
-	public boolean isWindows() {
-		return (OS.indexOf("win") >= 0);
-	}
-
-	public boolean isUnix() {
-		return (OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") > 0 );
 	}
 }
