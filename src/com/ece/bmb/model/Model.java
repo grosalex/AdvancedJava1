@@ -94,6 +94,7 @@ public class Model {
 			String line = "";
 			Pattern ipRegEx = Pattern.compile("(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})");
 
+			buf.readLine();
 			while ((line = buf.readLine()) != null) {
 				Matcher ip = ipRegEx.matcher(line);
 				
