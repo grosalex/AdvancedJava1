@@ -5,9 +5,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.ece.bmb.controller.Controller;
-import com.sun.java.swing.plaf.gtk.GTKConstants.PositionType;
-import com.sun.xml.internal.ws.dump.LoggingDumpTube.Position;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
