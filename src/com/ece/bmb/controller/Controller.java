@@ -75,9 +75,10 @@ public class Controller extends Application{
 			result=result+"}";
 			System.out.println(result);
 			PrintWriter out = new PrintWriter("dotFile.dot");
-			model.generateDotFile();
+			
 			out.println(result);
 			out.close();
+			model.generateDotFile();
 
 		} catch (Exception e) {
 			e.printStackTrace();

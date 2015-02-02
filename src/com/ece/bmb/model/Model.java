@@ -28,8 +28,12 @@ public class Model {
 			if(isUnix()) {
 				DOT= "dot";
 			}
+			
 			processGraph = Runtime.getRuntime().exec(DOT+" -Tpng dotFile.dot -o graph.png");
 			processGraph.waitFor();
+			System.out.println(processGraph.exitValue());
+			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
