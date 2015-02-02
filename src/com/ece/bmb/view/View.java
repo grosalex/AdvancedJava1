@@ -1,10 +1,15 @@
 package com.ece.bmb.view;
 
 import java.io.*;
+import java.net.MalformedURLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.imageio.ImageIO;
+
 import com.ece.bmb.controller.Controller;
+
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -18,6 +23,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 
@@ -26,10 +32,10 @@ public class View{
 	private Stage primaryStage;
 
 	private Controller ctrl;
-	
+
 	private Image img;
 
-	
+
 	public View(Stage primaryStage){
 		this.primaryStage=primaryStage;
 
@@ -39,8 +45,6 @@ public class View{
 	public void start(Controller controller) {
 		this.ctrl = controller;
 		primaryStage.setTitle("Traceroute");
-
-		File srcFile= new File("graph.png");
 
 		MenuBar menuBar = new MenuBar();
 		Menu menuHelp = new Menu("Help");
@@ -59,7 +63,7 @@ public class View{
 		menuExit.getItems().addAll(exit);
 		menuBar.getMenus().addAll(menuHelp,menuExit);
 
-		
+
 		ImageView imageView1 = new ImageView();
 
 		Scene vb = new Scene(new VBox(),1200,800);
@@ -68,7 +72,7 @@ public class View{
 		ScrollPane sp = new ScrollPane();
 
 		TextField ipField = new TextField();
-		TextField name_save = new TextField();
+
 		Button trace = new Button("Start Traceroute");
 		trace.setOnAction(new EventHandler<ActionEvent>() {		 
 			@Override
@@ -91,11 +95,17 @@ public class View{
 		save.setOnAction(new EventHandler<ActionEvent>() {		 
 			@Override
 			public void handle(ActionEvent event) {
-				if ((name_save.getText() != null && !name_save.getText().isEmpty())){
-					File destFile= new File("SavedGraph/"+name_save.getText()+".png");
-					ctrl.copyFile(srcFile,destFile);
-					name_save.clear();
+				FileChooser fileChooser = new FileChooser();
+				fileChooser.setTitle("Save Image");
 
+				File file = fileChooser.showSaveDialog(primaryStage);
+				if (file != null) {
+					try {
+						ImageIO.write(SwingFXUtils.fromFXImage(imageView1.getImage(),
+								null), "png", file);
+					} catch (IOException ex) {
+						ex.printStackTrace();
+					}
 				}
 			}
 
@@ -104,7 +114,17 @@ public class View{
 		load.setOnAction(new EventHandler<ActionEvent>() {		 
 			@Override
 			public void handle(ActionEvent event) {
+				FileChooser fileChooser = new FileChooser();
+				fileChooser.setTitle("Load Image");
+				File file = fileChooser.showOpenDialog(primaryStage);
+				if (file != null) {
 
+					try {
+						imageView1.setImage(new Image(file.toURI().toURL().toExternalForm()));
+					} catch (MalformedURLException e) {
+						e.printStackTrace();
+					}
+				}
 			}
 
 		});
@@ -112,7 +132,6 @@ public class View{
 
 		sp.setContent(imageView1);
 		hb1.getChildren().addAll(ipField,trace);
-		hb2.getChildren().addAll(name_save,save,load);
 		((VBox) vb.getRoot()).getChildren().addAll(menuBar,hb1,sp,hb2);
 
 
