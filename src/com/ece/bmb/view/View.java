@@ -98,6 +98,10 @@ public class View{
 				
 				String addip = new String(rando1+"."+rando2+"."+rando3+"."+rando4);
 				System.out.println(addip);
+				
+				ctrl.doTraceroute(addip);
+				img = new Image("file:graph.png");
+				imageView1.setImage(img);
 			}
 		});
 		Button save = new Button("Save Graphic");
