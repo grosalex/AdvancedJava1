@@ -27,7 +27,7 @@ public class Model {
 		DOT=new String();
 		return this;
 	}
-	public void generatePngFile(){
+	public void generatePngFile(String dotfile){
 		OS = System.getProperty("os.name").toLowerCase();
 		Process processGraph;
 		try {
@@ -38,7 +38,7 @@ public class Model {
 				DOT= "dot";
 			}
 			
-			processGraph = Runtime.getRuntime().exec(DOT+" -Tpng dotFile.dot -o graph.png");
+			processGraph = Runtime.getRuntime().exec(DOT+" -Tpng " + dotfile + " -o graph.png");
 			processGraph.waitFor();
 			
 
@@ -96,7 +96,6 @@ public class Model {
 			BufferedReader buf = new BufferedReader(new InputStreamReader(proc.getInputStream())); 
 			String line = "";
 			Pattern ipRegEx = Pattern.compile("(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})");
-			System.out.println(InetAddress.getLocalHost().getHostAddress());
 			parents.add(InetAddress.getLocalHost().getHostAddress());
 			buf.readLine();
 			while ((line = buf.readLine()) != null) {
@@ -117,7 +116,7 @@ public class Model {
 			} 
 			result=result+"}";
 
-			
+
 			PrintWriter out = new PrintWriter("dotFile.dot");
 			out.append(result);
 			out.close();
