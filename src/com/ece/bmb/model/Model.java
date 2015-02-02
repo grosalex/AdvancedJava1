@@ -1,11 +1,17 @@
 package com.ece.bmb.model;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class Model {
@@ -18,7 +24,7 @@ public class Model {
 		DOT=new String();
 		return this;
 	}
-	public void generateDotFile(){
+	public void generatePngFile(){
 		OS = System.getProperty("os.name").toLowerCase();
 		Process processGraph;
 		try {
@@ -31,7 +37,6 @@ public class Model {
 			
 			processGraph = Runtime.getRuntime().exec(DOT+" -Tpng dotFile.dot -o graph.png");
 			processGraph.waitFor();
-			System.out.println(processGraph.exitValue());
 			
 
 		} catch (Exception e) {
@@ -74,5 +79,46 @@ public class Model {
 
 	public boolean isUnix() {
 		return (OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") > 0 );
+	}
+	public void generateDotFile(String dest) {
+		Process proc;
+		ArrayList<String> parents = new ArrayList<String>();
+		ArrayList<String> children = new ArrayList<String>();
+		String result=new String("digraph mon_graphe {\n");
+		try {
+
+			proc = Runtime.getRuntime().exec("java -jar fakeroute.jar "+dest);
+			proc.waitFor();
+			
+			BufferedReader buf = new BufferedReader(new InputStreamReader(proc.getInputStream())); 
+			String line = "";
+			Pattern ipRegEx = Pattern.compile("(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})");
+
+			while ((line = buf.readLine()) != null) {
+				Matcher ip = ipRegEx.matcher(line);
+				
+				while(ip.find()) {
+					children.add(ip.group());
+				} 
+				for(int i=0;i<parents.size();i++){
+					for(int j=0;j<children.size();j++){
+						if(parents.get(i).compareTo(children.get(j))!=0)
+						System.out.println(parents.get(i)+"->"+children.get(j));
+						result=result+"\""+parents.get(i)+"\""+" -> "+"\""+children.get(j)+"\""+";\n";
+					}
+				}
+				parents.clear();
+				parents.addAll(children);
+				children.clear();
+			} 
+			result=result+"}";
+			System.out.println(result);
+			PrintWriter out = new PrintWriter("dotFile.dot");
+			
+			out.println(result);
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
