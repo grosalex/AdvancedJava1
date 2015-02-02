@@ -18,8 +18,8 @@ public class Controller extends Application{
 
 	public void start(Stage primaryStage) {
 		v = new View(primaryStage);
-		v.start(this);
 		doTraceroute("ece.fr");
+		v.start(this);
 		
 	}
 
