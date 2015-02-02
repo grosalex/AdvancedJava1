@@ -1,10 +1,13 @@
 package com.ece.bmb.view;
 
 import java.io.*;
-import java.net.MalformedURLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import com.ece.bmb.controller.Controller;
+import com.sun.java.swing.plaf.gtk.GTKConstants.PositionType;
+import com.sun.xml.internal.ws.dump.LoggingDumpTube.Position;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -25,9 +28,7 @@ import javafx.stage.Stage;
 public class View{
 
 	private Stage primaryStage;
-
 	private Controller ctrl;
-
 	private Image img;
 
 	public View(Stage primaryStage){
@@ -60,7 +61,6 @@ public class View{
 
 		Scene vb = new Scene(new VBox(),1200,800);
 		HBox hb1 = new HBox();
-		HBox hb2 = new HBox();
 		ScrollPane sp = new ScrollPane();
 
 		TextField ipField = new TextField();
@@ -135,13 +135,9 @@ public class View{
 
 
 		sp.setContent(imageView1);
-
-		hb1.getChildren().addAll(ipField,trace,randoIp);
-		hb2.getChildren().addAll(save,load);
-		((VBox) vb.getRoot()).getChildren().addAll(menuBar,hb1,sp,hb2);
-
-
-
+		hb1.getChildren().addAll(ipField,trace,randoIp,save,load);
+		((VBox) vb.getRoot()).getChildren().addAll(menuBar,hb1,sp);
+		
 		primaryStage.setScene(vb);
 		primaryStage.show();
 	}
