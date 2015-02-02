@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.ece.bmb.controller.Controller;
+import com.ece.bmb.model.Model;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -25,59 +26,18 @@ import javafx.stage.Stage;
 public class View{
 
 	private Stage primaryStage;
-	private Process processGraph;
-	private String OS;
-	private String DOT;	
+
 	private Controller ctrl;
 
-
+	
 	public View(Stage primaryStage){
 		this.primaryStage=primaryStage;
-		OS = System.getProperty("os.name").toLowerCase();
 
-		try {
-			if(isWindows()) {
-				DOT = "C:/Program Files (x86)/Graphviz2.38/bin/dot.exe";
-			}
-			if(isUnix()) {
-				DOT= "dot";
-			}
-			processGraph = Runtime.getRuntime().exec(DOT+" -Tpng dotfile.dot -o graph.png");
-			processGraph.waitFor();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 
 	// class taken from http://www.javalobby.org/java/forums/t17036.html
-	private void copyFile(File source, File dest) throws IOException{
 
-		if(!dest.exists()) {
-			dest.createNewFile();
-		}
-		InputStream in = null;
-		OutputStream out = null;
-		try {
-			in = new FileInputStream(source);
-			out = new FileOutputStream(dest);
-
-			// Transfer bytes from in to out
-			byte[] buf = new byte[1024];
-			int len;
-			while ((len = in.read(buf)) > 0) {
-				out.write(buf, 0, len);
-			}
-		}
-		finally {
-			if(in != null) {
-				in.close();
-			}
-			if(out != null) {
-				out.close();
-			}
-		}
-	}
 
 	public void start(Controller controller) {
 		this.ctrl = controller;
@@ -128,12 +88,9 @@ public class View{
 			public void handle(ActionEvent event) {
 				if ((name_save.getText() != null && !name_save.getText().isEmpty())){
 					File destFile= new File("SavedGraph/"+name_save.getText()+".png");
-					try {
-						copyFile(srcFile,destFile);
-						name_save.clear();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+					ctrl.copyFile(srcFile,destFile);
+					name_save.clear();
+
 				}
 			}
 
@@ -157,13 +114,5 @@ public class View{
 
 		primaryStage.setScene(vb);
 		primaryStage.show();
-	}
-
-	public boolean isWindows() {
-		return (OS.indexOf("win") >= 0);
-	}
-
-	public boolean isUnix() {
-		return (OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") > 0 );
 	}
 }
