@@ -42,7 +42,7 @@ public class View{
 			if(isUnix()) {
 				DOT= "dot";
 			}
-			processGraph = Runtime.getRuntime().exec(DOT+" -Tpng dotfile.dot -o graph.png");
+			processGraph = Runtime.getRuntime().exec(DOT+" -Tpng dotFile.dot -o graph.png");
 			processGraph.waitFor();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -106,14 +106,18 @@ public class View{
 		HBox hb2 = new HBox();
 		ScrollPane sp = new ScrollPane();
 
-		TextField url = new TextField();
+		TextField ipField = new TextField();
 		TextField name_save = new TextField();
 		Button trace = new Button("Start Traceroute");
 		trace.setOnAction(new EventHandler<ActionEvent>() {		 
 			@Override
 			public void handle(ActionEvent event) {
-				if(!url.getText().isEmpty()) {
-					ctrl.doTraceroute(url.getText());
+				if(!ipField.getText().isEmpty()) {
+					Pattern ipRegEx = Pattern.compile("(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})");
+					Matcher ipMatcher = ipRegEx.matcher(ipField.getText());
+					if(ipMatcher.matches()) {
+						ctrl.doTraceroute(ipField.getText());
+					}
 				}
 			}
 		});
@@ -144,7 +148,7 @@ public class View{
 
 
 		sp.setContent(imageView1);
-		hb1.getChildren().addAll(url,trace);
+		hb1.getChildren().addAll(ipField,trace);
 		hb2.getChildren().addAll(name_save,save,load);
 		((VBox) vb.getRoot()).getChildren().addAll(menuBar,hb1,sp,hb2);
 
