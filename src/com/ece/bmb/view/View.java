@@ -94,12 +94,14 @@ public class View{
 				System.exit(0);
 			}
 		});
+		MenuItem help = new MenuItem("gifi");
+		menuHelp.getItems().addAll(help);
 		menuExit.getItems().addAll(exit);
 		menuBar.getMenus().addAll(menuHelp,menuExit);
 
 		Image image = new Image("file:graph.png");
 		ImageView imageView1 = new ImageView();
-		imageView1.setImage(image);
+		//imageView1.setImage(image);
 
 		Scene vb = new Scene(new VBox(),400,300);
 		HBox hb1 = new HBox();
@@ -118,6 +120,7 @@ public class View{
 					if(ip.matches()) {
 						ctrl.doTraceroute(url.getText());
 					}
+					imageView1.setImage(image);
 				}
 
 			}
