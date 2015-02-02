@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -93,7 +94,9 @@ public class Model {
 			BufferedReader buf = new BufferedReader(new InputStreamReader(proc.getInputStream())); 
 			String line = "";
 			Pattern ipRegEx = Pattern.compile("(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})");
-
+			System.out.println(InetAddress.getLocalHost().getHostAddress());
+			parents.add(InetAddress.getLocalHost().getHostAddress());
+			buf.readLine();
 			while ((line = buf.readLine()) != null) {
 				Matcher ip = ipRegEx.matcher(line);
 				
