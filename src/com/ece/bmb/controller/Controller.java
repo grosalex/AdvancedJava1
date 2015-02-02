@@ -39,6 +39,7 @@ public class Controller extends Application{
 		model.generatePngFile("dotFile.dot");
 	}
 
+
 	public void generatePngFile(String dotFile) {
 		model.generatePngFile(dotFile);
 	}

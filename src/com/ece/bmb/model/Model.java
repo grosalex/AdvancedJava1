@@ -2,8 +2,10 @@ package com.ece.bmb.model;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -113,11 +115,23 @@ public class Model {
 				children.clear();
 			} 
 			result=result+"}";
+
+			File file =new File("dotFile.dot");
+			if(!file.exists()){
+    			file.createNewFile();
+    		}
+    		FileWriter fileWritter = new FileWriter(file.getName(),true);
+	        BufferedWriter bufferWritter = new BufferedWriter(fileWritter);
+	        bufferWritter.write(result);
+	        bufferWritter.close();
+			/*
 			PrintWriter out = new PrintWriter("dotFile.dot");
-			
-			out.println(result);
+			out.append(result);
 			out.close();
-		} catch (Exception e) {
+			*/
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
