@@ -84,6 +84,19 @@ public class View{
 				}
 			}
 		});
+		Button randoIp = new Button ("Random IP");
+		randoIp.setOnAction(new EventHandler<ActionEvent>() {		 
+			@Override
+			public void handle(ActionEvent event) {
+				int rando1 = 1 + (int)(Math.random() * ((254 - 0) + 1));
+				int rando2 = 1 + (int)(Math.random() * ((254 - 0) + 1));
+				int rando3 = 1 + (int)(Math.random() * ((254 - 0) + 1));
+				int rando4 = 1 + (int)(Math.random() * ((254 - 0) + 1));
+				
+				String addip = new String(rando1+"."+rando2+"."+rando3+"."+rando4);
+				System.out.println(addip);
+			}
+		});
 		Button save = new Button("Save Graphic");
 		save.setOnAction(new EventHandler<ActionEvent>() {		 
 			@Override
@@ -108,7 +121,7 @@ public class View{
 
 
 		sp.setContent(imageView1);
-		hb1.getChildren().addAll(ipField,trace);
+		hb1.getChildren().addAll(ipField,trace,randoIp);
 		hb2.getChildren().addAll(name_save,save,load);
 		((VBox) vb.getRoot()).getChildren().addAll(menuBar,hb1,sp,hb2);
 
