@@ -116,19 +116,12 @@ public class Model {
 				children.clear();
 			} 
 			result=result+"}";
-			File file =new File("dotFile.dot");
-			if(!file.exists()){
-    			file.createNewFile();
-    		}
-    		FileWriter fileWritter = new FileWriter(file.getName(),true);
-	        BufferedWriter bufferWritter = new BufferedWriter(fileWritter);
-	        bufferWritter.write(result);
-	        bufferWritter.close();
-			/*
+
+			
 			PrintWriter out = new PrintWriter("dotFile.dot");
 			out.append(result);
 			out.close();
-			*/
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
