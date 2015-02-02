@@ -19,7 +19,7 @@ public class Controller extends Application{
 		model=new Model();
 		v = new View(primaryStage);
 		v.start(this);
-		
+
 	}
 	// Method taken from http://www.javalobby.org/java/forums/t17036.html
 	public void copyFile(File srcFile, File destFile) {
@@ -33,13 +33,13 @@ public class Controller extends Application{
 		launch(args);
 
 	}
-	
+
 	public void doTraceroute(String dest) {
-			model.generateDotFile(dest);
-			model.generatePngFile();
-
-
+		model.generateDotFile(dest);
+		model.generatePngFile("dotFile.dot");
 	}
 
-
+	public void generatePngFile(String dotFile) {
+		model.generatePngFile(dotFile);
+	}
 }
