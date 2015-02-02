@@ -45,8 +45,6 @@ public class Controller extends Application{
 	public void doTraceroute(String dest) {
 			model.generateDotFile(dest);
 			model.generatePngFile();
-
-
 	}
 
 
