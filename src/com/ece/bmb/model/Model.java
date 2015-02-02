@@ -103,7 +103,6 @@ public class Model {
 				for(int i=0;i<parents.size();i++){
 					for(int j=0;j<children.size();j++){
 						if(parents.get(i).compareTo(children.get(j))!=0)
-						System.out.println(parents.get(i)+"->"+children.get(j));
 						result=result+"\""+parents.get(i)+"\""+" -> "+"\""+children.get(j)+"\""+";\n";
 					}
 				}
@@ -112,7 +111,6 @@ public class Model {
 				children.clear();
 			} 
 			result=result+"}";
-			System.out.println(result);
 			PrintWriter out = new PrintWriter("dotFile.dot");
 			
 			out.println(result);

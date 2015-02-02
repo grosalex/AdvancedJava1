@@ -35,7 +35,6 @@ public class View{
 
 	private Image img;
 
-
 	public View(Stage primaryStage){
 		this.primaryStage=primaryStage;
 
@@ -62,8 +61,6 @@ public class View{
 		menuHelp.getItems().addAll(help);
 		menuExit.getItems().addAll(exit);
 		menuBar.getMenus().addAll(menuHelp,menuExit);
-
-
 		ImageView imageView1 = new ImageView();
 
 		Scene vb = new Scene(new VBox(),1200,800);
@@ -87,6 +84,7 @@ public class View{
 						img = new Image("file:graph.png");
 						imageView1.setImage(img);
 					}
+					
 				}
 
 			}
@@ -100,9 +98,7 @@ public class View{
 				int rando3 = 1 + (int)(Math.random() * ((254 - 0) + 1));
 				int rando4 = 1 + (int)(Math.random() * ((254 - 0) + 1));
 				
-				String addip = new String(rando1+"."+rando2+"."+rando3+"."+rando4);
-				System.out.println(addip);
-				
+				String addip = new String(rando1+"."+rando2+"."+rando3+"."+rando4);				
 				ctrl.doTraceroute(addip);
 				img = new Image("file:graph.png");
 				imageView1.setImage(img);
