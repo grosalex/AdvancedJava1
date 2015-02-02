@@ -5,8 +5,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.ece.bmb.controller.Controller;
-import com.ece.bmb.model.Model;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -76,7 +74,8 @@ public class View{
 			public void handle(ActionEvent event) {
 
 				if(!ipField.getText().isEmpty()) {
-					Pattern ipRegEx = Pattern.compile("(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})");
+					Pattern ipRegEx = Pattern.compile("(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)");
+
 					Matcher ipMatcher = ipRegEx.matcher(ipField.getText());
 					if(ipMatcher.matches()) {
 						ctrl.doTraceroute(ipField.getText());
