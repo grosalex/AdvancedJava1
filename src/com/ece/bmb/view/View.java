@@ -42,7 +42,7 @@ public class View{
 			if(isUnix()) {
 				DOT= "dot";
 			}
-			processGraph = Runtime.getRuntime().exec(DOT+" -Tpng dotfile.dot -o graph.png");
+			processGraph = Runtime.getRuntime().exec(DOT+" -Tpng dotFile.dot -o graph.png");
 			processGraph.waitFor();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -94,7 +94,10 @@ public class View{
 				System.exit(0);
 			}
 		});
-		MenuItem help = new MenuItem("gifi");
+		MenuItem help = new MenuItem("Functionalities\n\t-Enter a ip address in the top field\n\t"
+				+ "-Start the Traceroute\n\t"
+				+ "-The graph of your traceroute will appear\n\t"
+				+ "-You can save your graph by putting a name ien the text field and click on Save");
 		menuHelp.getItems().addAll(help);
 		menuExit.getItems().addAll(exit);
 		menuBar.getMenus().addAll(menuHelp,menuExit);
@@ -115,14 +118,9 @@ public class View{
 			@Override
 			public void handle(ActionEvent event) {
 				if(!url.getText().isEmpty()) {
-					Pattern ipRegEx = Pattern.compile("(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})");
-					Matcher ip = ipRegEx.matcher(url.getText());
-					if(ip.matches()) {
-						ctrl.doTraceroute(url.getText());
-					}
+					ctrl.doTraceroute(url.getText());
 					imageView1.setImage(image);
 				}
-
 			}
 		});
 		Button save = new Button("Save Graphic");
