@@ -36,9 +36,6 @@ public class View{
 	}
 
 
-	// class taken from http://www.javalobby.org/java/forums/t17036.html
-
-
 	public void start(Controller controller) {
 		this.ctrl = controller;
 		primaryStage.setTitle("Traceroute");
@@ -65,7 +62,7 @@ public class View{
 		
 		ImageView imageView1 = new ImageView();
 
-		Scene vb = new Scene(new VBox(),400,300);
+		Scene vb = new Scene(new VBox(),1200,800);
 		HBox hb1 = new HBox();
 		HBox hb2 = new HBox();
 		ScrollPane sp = new ScrollPane();

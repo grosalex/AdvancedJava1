@@ -29,6 +29,7 @@ public class Controller extends Application{
 		v.start(this);
 		
 	}
+	// class taken from http://www.javalobby.org/java/forums/t17036.html
 	public void copyFile(File srcFile, File destFile) {
 		try {
 			model.copyFile(srcFile,destFile);
