@@ -26,6 +26,8 @@ public class View{
 	private Stage primaryStage;
 
 	private Controller ctrl;
+	
+	private Image img;
 
 	
 	public View(Stage primaryStage){
@@ -57,9 +59,8 @@ public class View{
 		menuExit.getItems().addAll(exit);
 		menuBar.getMenus().addAll(menuHelp,menuExit);
 
-		Image image = new Image("file:graph.png");
+		
 		ImageView imageView1 = new ImageView();
-		//imageView1.setImage(image);
 
 		Scene vb = new Scene(new VBox(),1200,800);
 		HBox hb1 = new HBox();
@@ -79,9 +80,11 @@ public class View{
 					Matcher ipMatcher = ipRegEx.matcher(ipField.getText());
 					if(ipMatcher.matches()) {
 						ctrl.doTraceroute(ipField.getText());
-						imageView1.setImage(image);
+						img = new Image("file:graph.png");
+						imageView1.setImage(img);
 					}
 				}
+
 			}
 		});
 		Button randoIp = new Button ("Random IP");
