@@ -113,13 +113,8 @@ public class View{
 			@Override
 			public void handle(ActionEvent event) {
 				if(!url.getText().isEmpty()) {
-					Pattern ipRegEx = Pattern.compile("(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})");
-					Matcher ip = ipRegEx.matcher(url.getText());
-					if(ip.matches()) {
-						ctrl.doTraceroute(url.getText());
-					}
+					ctrl.doTraceroute(url.getText());
 				}
-
 			}
 		});
 		Button save = new Button("Save Graphic");
